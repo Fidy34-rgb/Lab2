@@ -5,13 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-
 <body>
-    <h1>Login Page</h1>
-
-    <form action="/login">
-        <input type="text" name="userId"></input>
-        <button id="/login">Login</button>
-    </form>
+    <h1 th:text="${name}">Image Name</h1>
+    <img width="400px" th:src="'/images/'+${name} + '.jpg'" alt="sinful">
 </body>
 </html>
