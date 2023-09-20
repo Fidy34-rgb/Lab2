@@ -5,8 +5,30 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import comp31.fidy.services.EmployeeService;
+
 @Controller
 public class MainController {
+
+    EmployeeService employeeService;
+
+    public MainController(EmployeeService employeeService) {
+        super();
+        this.employeeService = employeeService;
+        /**
+         * Add some employees to the employee list.
+         * Choose any employee and department names
+         * Add some template pages to match the departments you choose
+         */
+        employeeService.addEmployee("Tori", "admin");
+        employeeService.addEmployee("Trevor", "developer");
+        employeeService.addEmployee("Emma", "user");
+        employeeService.addEmployee("Ethan", "developer");
+        employeeService.addEmployee("Fidy", "guest");
+        employeeService.addEmployee("Jack", "admin");
+        employeeService.addEmployee("Tony", "guest");
+        employeeService.addEmployee("James", "user");
+    }
 
     @GetMapping("/")
     public String getRoot() {
@@ -14,39 +36,20 @@ public class MainController {
     }
 
     @GetMapping("/login")
-    public String getLogin(@RequestParam String userId, Model model){
-        String site;
-        switch(userId.toLowerCase()) {
-            case "sam":
-                model.addAttribute("userId", userId);
-                site = "sales";
-                break;
-            case "sue":
-                model.addAttribute("userId", userId);
-                site = "sales";
-                break;
-            case "olivia":
-                model.addAttribute("userId", userId);
-                site = "orders";
-                break;
-            case "ollie":
-                model.addAttribute("userId", userId);
-                site = "orders";
-                break;
-            case "rachel":
-                model.addAttribute("userId", userId);
-                site = "repairs";
-                break;
-            case "ralph":
-                model.addAttribute("userId", userId);
-                site = "repairs";
-                break;
-            default:
-                model.addAttribute("userId", userId);
-                site = "home";
-                break;
-        }
-        return site;
+    public String getLogin(Model model, @RequestParam String userId){
+        model.addAttribute("userId", userId);
+
+        String department = employeeService.findDepartment(userId);
+        
+        if (department == null) 
+            model.addAttribute("department", "home");
+        else
+            model.addAttribute("department", department);
+        
+        if (department == null)
+            return "home";
+        else 
+            return "departments/" + department;
     }
 
     @GetMapping("/image")
