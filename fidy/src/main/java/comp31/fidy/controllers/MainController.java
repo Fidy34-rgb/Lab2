@@ -1,4 +1,4 @@
-package comp31.fidy;
+package comp31.fidy.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
